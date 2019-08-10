@@ -1,0 +1,20 @@
+<div class="parent-container">
+    <h2 class="center-title">Assignment</h2>
+    <div class="login-container">  
+        <mat-card-title class="login-title">
+            Sign-In
+        </mat-card-title><br>
+        <mat-card-content>
+            <mat-form-field class="input-field mt-3">
+                <input matInput placeholder="Username" [formControl]="userName" [(ngModel)]="user.username">
+                <mat-error *ngIf="userName.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field> <br>
+              <mat-form-field class="input-field">
+                <input matInput placeholder="Password" [formControl]="userPassword" [(ngModel)]="user.password">
+                <mat-error *ngIf="userPassword.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field><br>
+              <button mat-raised-button (click)="login()">Login</button>
+              
+        </mat-card-content>
+    </div>
+</div>

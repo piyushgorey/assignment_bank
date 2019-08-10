@@ -1,0 +1,28 @@
+<div class="d-block m-5">
+    <mat-card-title>
+
+    </mat-card-title><br>
+    <mat-card-content>
+        <div class="mt-5" *ngIf="user">
+            <mat-label>Customer Name: </mat-label>
+            <mat-label>{{ user.customerName }}</mat-label>
+            <div *ngFor="let transactions of transactionList" class="row-container">
+                    <div>
+                        <mat-label>Transfer amount: </mat-label>
+                        <mat-label>{{ transactions.transferAmount }}</mat-label>
+                    </div><br>
+                    <div class="row-item">
+                        <mat-label>Transfer Currency: </mat-label>
+                        <mat-label>{{ transactions.transferCurrency }}</mat-label>
+                    </div><br>
+                    <div class="row-item-last">
+                        <mat-label>Reference: </mat-label>
+                        <mat-label> {{ transactions.referenceNum }} </mat-label>
+                    </div>
+                </div>
+        </div>
+        
+            
+
+    </mat-card-content>
+</div>

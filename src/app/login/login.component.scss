@@ -1,0 +1,24 @@
+.parent-container{
+    // text-align: center;
+    width: 100%;
+    height: -webkit-fill-available;
+    background-color: #f4f4f4
+}
+.center-title {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.login-container {
+    padding: 20px 100px 20px 10px;
+    position: absolute;
+    top: 30%;
+    background-color: #d3d3d3;
+    left: 50%;
+    
+    transform: translate(-50%, -50%);
+}
+.login-title { 
+    font-size: 35px
+}

@@ -1,0 +1,67 @@
+<div class="d-block m-5">
+    <mat-card-title>
+        Please fill the below details:
+    </mat-card-title><br>
+    <mat-card-content *ngIf="userDetailsReceived">
+        <mat-grid-list cols="2" rowHeight="6:1">
+            <mat-grid-tile>
+                <mat-form-field class="mt-5">
+                    <input matInput placeholder="Referance Number" [(ngModel)]="referenceNum">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field class="mt-5">
+                    <input matInput placeholder="Transfer amount" [formControl]="transferAmount" [(ngModel)]="userTransaction.transferAmount">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Customer Number" (keyup)="getCustomerNumber($event)">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <mat-label>Transfer currency</mat-label>
+                    <mat-select [(ngModel)]="userTransaction.transferCurrency">
+                        <mat-option *ngFor="let currency of transferCurrencies" [value]="currency">
+                            {{currency}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Customer Name" [(ngModel)]="userDetailsReceived.customerName">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Beneficiary bank"  [formControl]="benificiaryBank" [(ngModel)]="userTransaction.beneficiaryBank">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Customer address" [(ngModel)]="userDetailsReceived.customerAddress">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Beneficiary account number" [formControl]="benificiaryAcc" [(ngModel)]="userTransaction.beneficiaryAccNum">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Customer Phone Number" [formControl]="phoneNumber"  [(ngModel)]="userDetailsReceived.phonenumber">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field>
+                    <input matInput placeholder="Payment details" [formControl]="paymentDetails" [(ngModel)]="userTransaction.paymentDetails">
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <div class="text-center">
+            <button mat-raised-button (click)="submitTransaction()">Submit</button>
+        </div>
+    </mat-card-content>
+</div>
