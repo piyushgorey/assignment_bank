@@ -20,16 +20,23 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  login() {
+
+  /**
+   * Authenticates the user and navigates to the dashboard page
+   */
+  login(): void {
     this.loginService.authenticate().subscribe((userResponse: LoginUser) => {
       if (this.loginService.checkIfUSerIsValid(this.user, userResponse)) {
         this.router.navigateByUrl('dashboard');
       }
     });
   }
+  /**
+   * validation messages are displayed as per input feild
+   */
   getErrorMessage() {
-    return this.userName.hasError('required') ? 'You must enter a customer Number' :
-      this.userPassword.hasError('minLength') ? 'You must enter a password' :
+    return this.userName.hasError('required') ? "Please enter username: testuser" :
+      this.userPassword.hasError('minLength') ? "Please enter password: 1234" :
         '';
   }
 }

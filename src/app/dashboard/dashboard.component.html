@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar [user]="userDetails"></app-navbar>
 <mat-tab-group mat-align-tabs="center" *ngIf="userDetails; else else_spinner" (selectedTabChange)="onLinkClick($event)">
     <mat-tab label="New Transactions">
         <app-newtransactions [user]="userDetails" [transactionObj]="transactionObj" (notifyParent)="updateData()"></app-newtransactions>

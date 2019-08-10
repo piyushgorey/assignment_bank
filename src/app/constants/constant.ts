@@ -5,5 +5,5 @@ export const Constants = {
     //Display text
     successMessage: 'Transaction details are submitted successfully.',
     reloadTxt: 'reload',
-    failureMeassage: 'Details you entered are incorrect. Please try again.'
+    failureMessage: 'Details you entered are incorrect. Please try again.'
 }

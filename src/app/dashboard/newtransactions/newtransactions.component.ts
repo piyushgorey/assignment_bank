@@ -20,9 +20,9 @@ export class NewtransactionsComponent implements OnInit {
   userTransaction: UserTransactions;
   transferAmount = new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]);
   phoneNumber = new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]);
-  benificiaryBank = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
-  benificiaryAcc = new FormControl('', [Validators.required]);
-  paymentDetails = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]);
+  beneficiaryBank = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]);
+  beneficiaryAcc = new FormControl('', [Validators.required]);
+  paymentDetails = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]);
   
   constructor(private dashboardService: DashboardService, private snackBar: MatSnackBar, private cdref: ChangeDetectorRef) { }
   ngAfterViewInit() {
@@ -31,11 +31,14 @@ export class NewtransactionsComponent implements OnInit {
     this.userTransaction = new UserTransactions();
     this.referenceNum = this.dashboardService.getReferenceNumber();
     this.cdref.detectChanges();
-
   }
   ngOnInit() {
 
   }
+  /**
+   * gets the customer number and populates the fields remaining with details.
+   * @param event 
+   */
   getCustomerNumber(event) {
     let customerNum = event.target.value;
     if(customerNum === this.user.customerNumber) {
@@ -43,11 +46,15 @@ export class NewtransactionsComponent implements OnInit {
         customerName: this.user.customerName,
         customerAddress: this.user.customerAddress,
         customerNumber: this.user.customerNumber,
-        phonenumber: this.user.phonenumber
+        phoneNumber: this.user.phoneNumber
       }
     }
   }
-  submitTransaction() {
+  /**
+   * pushes a new transaction object into array.
+   * calls the pushNewTransaction service to update the new entry.
+   */
+  submitTransaction(): void {
     this.userTransaction.referenceNum = this.referenceNum;
     if(this.validateForm()){
       this.dashboardService.getTransactionList().subscribe((transactionList) => {
@@ -60,10 +67,16 @@ export class NewtransactionsComponent implements OnInit {
         });
       });
     } else {
-      this.openSnackBar(Constants.failureMeassage, 'Ok');
+      this.openSnackBar(Constants.failureMessage, 'Ok');
     }
   }
-  openSnackBar(message:string, action: string) {
+
+  /**
+   * Opens material snackBar 
+   * @param message 
+   * @param action 
+   */
+  openSnackBar(message:string, action: string): void {
     let snackBarRef = this.snackBar.open(message, action, {
       duration: 2000,
     });
@@ -74,9 +87,12 @@ export class NewtransactionsComponent implements OnInit {
       });
     }
   }
+  /**
+   * Validations are done for the form fields
+   */
   validateForm() {
-   if(this.transferAmount.pristine && this.paymentDetails.pristine && this.phoneNumber.pristine &&
-    this.benificiaryBank.pristine) {
+   if(!this.transferAmount.errors && !this.paymentDetails.errors && !this.phoneNumber.errors &&
+    !this.beneficiaryBank.errors) {
       return true
     } else {
       return false;
