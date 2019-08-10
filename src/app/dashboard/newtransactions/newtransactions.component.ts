@@ -3,7 +3,7 @@ import { UserDetails, TransactionData, UserTransactions, TransactionList } from 
 import { DashboardService } from 'src/app/services/dashboard.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Constants } from 'src/app/constants/constant';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-newtransactions',
@@ -16,20 +16,24 @@ export class NewtransactionsComponent implements OnInit {
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
   transferCurrencies: string[] = ['AED', 'EUR', 'CHF', 'MUR', 'USD'];
   referenceNum: string;
+  value="some Value"
   userDetailsReceived: UserDetails;
   userTransaction: UserTransactions;
-  transferAmount = new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]);
-  phoneNumber = new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]);
-  beneficiaryBank = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]);
-  beneficiaryAcc = new FormControl('', [Validators.required]);
-  paymentDetails = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]);
-  
+  transferCurrency: string;
+  userTransactionForm = new FormGroup({
+    transferAmount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    beneficiaryBank: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
+    beneficiaryAccNum: new FormControl('', [Validators.required]),
+    paymentDetails: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')])
+  });
   constructor(private dashboardService: DashboardService, private snackBar: MatSnackBar, private cdref: ChangeDetectorRef) { }
   ngAfterViewInit() {
     this.userDetailsReceived = new UserDetails()
     this.userDetailsReceived.customerNumber = this.user ? this.user.customerNumber: '';
     this.userTransaction = new UserTransactions();
     this.referenceNum = this.dashboardService.getReferenceNumber();
+    this.userTransactionForm.value.phoneNumber = '';
     this.cdref.detectChanges();
   }
   ngOnInit() {
@@ -48,6 +52,9 @@ export class NewtransactionsComponent implements OnInit {
         customerNumber: this.user.customerNumber,
         phoneNumber: this.user.phoneNumber
       }
+      // this.userTransactionForm.value.phoneNumber.s = this.user.phoneNumber;
+      console.log(this.userTransactionForm.value.phoneNumber);
+      this.userTransactionForm.patchValue({phoneNumber:this.user.phoneNumber})
     }
   }
   /**
@@ -55,8 +62,9 @@ export class NewtransactionsComponent implements OnInit {
    * calls the pushNewTransaction service to update the new entry.
    */
   submitTransaction(): void {
-    this.userTransaction.referenceNum = this.referenceNum;
-    if(this.validateForm()){
+    console.log(this.userTransactionForm);
+    this.userTransaction = this.mapTransactionForm(this.userTransactionForm.value);
+    if(this.userTransactionForm.status === 'VALID'){
       this.dashboardService.getTransactionList().subscribe((transactionList) => {
         transactionList.push(this.userTransaction)
         this.dashboardService.pushNewTransactions(transactionList).subscribe((updatedTransactions: TransactionList) => {
@@ -70,6 +78,16 @@ export class NewtransactionsComponent implements OnInit {
       this.openSnackBar(Constants.failureMessage, 'Ok');
     }
   }
+  mapTransactionForm(transactionForm) {
+    let formData = new UserTransactions();
+    formData.beneficiaryAccNum = transactionForm.beneficiaryAccNum;
+    formData.beneficiaryBank = transactionForm.beneficiaryBank;
+    formData.paymentDetails = transactionForm.paymentDetails;
+    formData.referenceNum = this.referenceNum;
+    formData.transferAmount = transactionForm.transferAmount;
+    formData.transferCurrency = this.transferCurrency;
+    return formData;
+  }
 
   /**
    * Opens material snackBar 
@@ -80,23 +98,11 @@ export class NewtransactionsComponent implements OnInit {
     let snackBarRef = this.snackBar.open(message, action, {
       duration: 2000,
     });
-    if(this.validateForm()){
+    if(this.userTransactionForm.status === 'VALID'){
       snackBarRef.afterDismissed().subscribe(()=> {
         this.notifyParent.emit();
         window.location.reload();
       });
     }
   }
-  /**
-   * Validations are done for the form fields
-   */
-  validateForm() {
-   if(!this.transferAmount.errors && !this.paymentDetails.errors && !this.phoneNumber.errors &&
-    !this.beneficiaryBank.errors) {
-      return true
-    } else {
-      return false;
-    }
-  }
-  
 }

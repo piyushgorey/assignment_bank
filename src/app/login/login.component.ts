@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { User, LoginUser } from '../model/model';
 import { Router } from '@angular/router';
 
@@ -10,12 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  user: User = {
-    username: '',
-    password: ''
-  };
-  userName = new FormControl('', [Validators.required]);
-  userPassword = new FormControl('', [Validators.required, Validators.minLength(0)]);
+  userForm = new FormGroup({
+    userName: new FormControl('', [Validators.required]),
+    userPassword: new FormControl('', [Validators.required, Validators.minLength(0)])
+  });
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
@@ -26,17 +24,9 @@ export class LoginComponent implements OnInit {
    */
   login(): void {
     this.loginService.authenticate().subscribe((userResponse: LoginUser) => {
-      if (this.loginService.checkIfUSerIsValid(this.user, userResponse)) {
+      if (this.loginService.checkIfUSerIsValid(this.userForm.value, userResponse)) {
         this.router.navigateByUrl('dashboard');
       }
     });
-  }
-  /**
-   * validation messages are displayed as per input feild
-   */
-  getErrorMessage() {
-    return this.userName.hasError('required') ? "Please enter username: testuser" :
-      this.userPassword.hasError('minLength') ? "Please enter password: 1234" :
-        '';
   }
 }

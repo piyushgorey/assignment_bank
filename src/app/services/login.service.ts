@@ -23,7 +23,7 @@ export class LoginService {
      * @param responseUser 
      */
     checkIfUSerIsValid(user: User, responseUser: LoginUser): boolean {
-        if (user.username === responseUser.username && user.password === responseUser.password) {
+        if (user.userName === responseUser.username && user.userPassword === responseUser.password) {
             return true;
         } else {
             return false;
