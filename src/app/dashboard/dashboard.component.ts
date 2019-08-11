@@ -20,21 +20,21 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     console.log('dashboard call');
-    this.getTransactionList();
     this.dashboardService.getCusomerDetails().subscribe((response: UserDetails) => {
       this.userDetails = response;
+      this.getTransactionList(this.userDetails);
     }, (error) => {
       console.log(error);
-    })
+    });
   }
   onLinkClick(event: MatTabChangeEvent): void {
-    this.getTransactionList();
+    this.getTransactionList(this.userDetails);
   }
 /**
  * calls dashboard service to retrive the user transaction list.
  */
-  getTransactionList(): void {
-    this.dashboardService.getTransactionList().subscribe((transactionList: TransactionList) => {
+  getTransactionList(userDetails: UserDetails): void {
+    this.dashboardService.getTransactionList(userDetails.transactionData).subscribe((transactionList: TransactionList) => {
       this.transactionList = transactionList.newTransactions;
       console.log(transactionList);
       this.transactionObj = { list: transactionList }
@@ -45,6 +45,6 @@ export class DashboardComponent implements OnInit {
    * fires when EventEmitter "notifyParent" is emitted from "New Transaction" page.
    */
   updateData(): void {
-    this.getTransactionList();
+    this.getTransactionList(this.userDetails);
   }
 }

@@ -4,12 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constants } from '../constants/constant';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class DashboardService {
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router) {
     }
-
+    private noId = new BehaviorSubject<string>('');
+    defaultId = this.noId.asObservable();
     /**
      * http call gets the user using https://jsonbin.io/ bin
      * this bin returns an Observable of valid user json which is also present in the asses folder "customer.json"
@@ -21,7 +24,7 @@ export class DashboardService {
             }
         }
         return this.http.get(Constants.getCustDetailsUrl, options).pipe(
-            map((res: ServerResponse) => this.mapUserResponse(res.responseXML.getCustomerInfoResponse.getCustomerInfoResult.CUST_INFO)
+            map((res: ServerResponse[]) => this.mapUserResponse(res)
             ))
     }
     /**
@@ -29,7 +32,7 @@ export class DashboardService {
      * Returns an Observable of UserTransaction. 
      * @param userTransaction 
      */
-    pushNewTransactions(userTransaction:UserTransactions[]): Observable<any> {
+    pushNewTransactions(userTransaction: UserTransactions[], url): Observable<any> {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +40,7 @@ export class DashboardService {
                 'versioning': 'false'
             }
         }
-        return this.http.put(Constants.newTransactionUrl, userTransaction, options);
+        return this.http.put(url, userTransaction, options);
     }
 
     /**
@@ -45,12 +48,32 @@ export class DashboardService {
      * Filters out redundant feilds and creates a more specific  user details response.
      * @param userResponse 
      */
-    mapUserResponse(userResponse: ServerUserInfo): UserDetails {
+    mapUserResponse(userResponse: ServerResponse[]): UserDetails {
+        let custNum: string;
+        this.defaultId.subscribe(res => {
+            console.log(res);
+            if(res=='') {
+                if(JSON.parse(localStorage.getItem('custNum')).custNum) {
+                    custNum = JSON.parse(localStorage.getItem('custNum')).custNum;
+                } else {
+                    this.router.navigateByUrl('', { replaceUrl: true });
+                }
+            }  else {
+                custNum = res;
+            }  
+        });
+        let userInfo: ServerUserInfo;
         let userDetails = new UserDetails();
-        userDetails.customerNumber = userResponse.CUST_NO;
-        userDetails.customerAddress = userResponse.STREET_ADDR;
-        userDetails.customerName = userResponse.SHORT_NAME;
-        userDetails.phoneNumber = userResponse.CONTACT_INFO_V7.CONTACT_INFO_V7.PHONE_LIST_V7.PHONE_LIST_ITEM_V7.PHONE;
+        for (let userIndex = 0; userIndex < userResponse.length; userIndex++) {
+            userInfo = userResponse[userIndex].responseXML.getCustomerInfoResponse.getCustomerInfoResult.CUST_INFO;
+            if (userInfo.CUST_NO == custNum) {
+                userDetails.customerNumber = userInfo.CUST_NO;
+                userDetails.customerAddress = userInfo.STREET_ADDR;
+                userDetails.customerName = userInfo.SHORT_NAME;
+                userDetails.phoneNumber = userInfo.CONTACT_INFO_V7.CONTACT_INFO_V7.PHONE_LIST_V7.PHONE_LIST_ITEM_V7.PHONE;
+                userDetails.transactionData = userInfo.TRANSACTION_DATA;
+            }
+        }
         return userDetails;
     }
     /**
@@ -69,7 +92,7 @@ export class DashboardService {
     /**
      * Returns an array of past user transaction.
      */
-    getTransactionList(): Observable<any> {
+    getTransactionList(url): Observable<any> {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -77,6 +100,9 @@ export class DashboardService {
                 'versioning': 'false'
             }
         }
-        return this.http.get(Constants.newTransactionUrl, options);
+        return this.http.get(url, options);
+    }
+    newId(urlId) {
+        this.noId.next(urlId);
     }
 }

@@ -8,6 +8,10 @@
             <mat-label>{{ user.customerName }}</mat-label>
             <div *ngFor="let transactions of transactionList" class="row-container">
                     <div>
+                            <mat-label>Beneficiary Name: </mat-label>
+                            <mat-label>{{ transactions.beneficiaryName }}</mat-label>
+                        </div><br>
+                    <div>
                         <mat-label>Transfer amount: </mat-label>
                         <mat-label>{{ transactions.transferAmount }}</mat-label>
                     </div><br>

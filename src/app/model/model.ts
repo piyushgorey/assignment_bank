@@ -8,7 +8,7 @@ export class UserDetails {
     customerName: string;
     customerAddress: string;
     phoneNumber: string;
-    
+    transactionData:string;
 }
 export class UserTransactions {
     referenceNum: string;
@@ -17,6 +17,7 @@ export class UserTransactions {
     beneficiaryBank: string;
     beneficiaryAccNum: string;
     paymentDetails: string;
+    beneficiaryName: string;
 }
 export class TransactionList {
     newTransactions: UserTransactions[];
@@ -34,7 +35,8 @@ export class ServerResponse {
 export class LoginUser {
     username: string;
     name: string;
-    password: string
+    password: string;
+    custNum: string
 }
 export class TransactionData {
     userInfo: UserDetails;
@@ -50,6 +52,7 @@ export class TransactionData {
 export class ServerUserInfo {
     CUST_NO: string;
     SHORT_NAME: string
+    TRANSACTION_DATA: string;
     STREET_ADDR: string
     CONTACT_INFO_V7: {
         CONTACT_INFO_V7: {

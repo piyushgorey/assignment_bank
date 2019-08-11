@@ -25,7 +25,8 @@ export class NewtransactionsComponent implements OnInit {
     phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     beneficiaryBank: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
     beneficiaryAccNum: new FormControl('', [Validators.required]),
-    paymentDetails: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')])
+    paymentDetails: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
+    beneficiaryName: new FormControl('',[Validators.required])
   });
   constructor(private dashboardService: DashboardService, private snackBar: MatSnackBar, private cdref: ChangeDetectorRef) { }
   ngAfterViewInit() {
@@ -50,7 +51,8 @@ export class NewtransactionsComponent implements OnInit {
         customerName: this.user.customerName,
         customerAddress: this.user.customerAddress,
         customerNumber: this.user.customerNumber,
-        phoneNumber: this.user.phoneNumber
+        phoneNumber: this.user.phoneNumber,
+        transactionData: this.user.transactionData
       }
       // this.userTransactionForm.value.phoneNumber.s = this.user.phoneNumber;
       console.log(this.userTransactionForm.value.phoneNumber);
@@ -65,12 +67,18 @@ export class NewtransactionsComponent implements OnInit {
     console.log(this.userTransactionForm);
     this.userTransaction = this.mapTransactionForm(this.userTransactionForm.value);
     if(this.userTransactionForm.status === 'VALID'){
-      this.dashboardService.getTransactionList().subscribe((transactionList) => {
+      this.dashboardService.getTransactionList(this.userDetailsReceived.transactionData).subscribe((transactionList) => {
         transactionList.push(this.userTransaction)
-        this.dashboardService.pushNewTransactions(transactionList).subscribe((updatedTransactions: TransactionList) => {
+        this.dashboardService.pushNewTransactions(transactionList, this.userDetailsReceived.transactionData).subscribe((updatedTransactions: TransactionList) => {
           console.log(updatedTransactions);
+          this.userTransactionForm.reset();
+          this.referenceNum = this.dashboardService.getReferenceNumber();
           this.openSnackBar(Constants.successMessage,'Ok');
+          setTimeout(()=>{
+            window.location.reload();
+          },2000)
         }, (err)=>{
+          this.openSnackBar(Constants.failureServiceMessage, 'Ok');
           console.log(err);   
         });
       });
@@ -78,6 +86,11 @@ export class NewtransactionsComponent implements OnInit {
       this.openSnackBar(Constants.failureMessage, 'Ok');
     }
   }
+
+  /**
+   * returns a form object which is the body of put API call
+   * @param transactionForm 
+   */
   mapTransactionForm(transactionForm) {
     let formData = new UserTransactions();
     formData.beneficiaryAccNum = transactionForm.beneficiaryAccNum;
@@ -86,6 +99,7 @@ export class NewtransactionsComponent implements OnInit {
     formData.referenceNum = this.referenceNum;
     formData.transferAmount = transactionForm.transferAmount;
     formData.transferCurrency = this.transferCurrency;
+    formData.beneficiaryName = transactionForm.beneficiaryName;
     return formData;
   }
 

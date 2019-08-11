@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
    * navigates the user to login page.
    */
   logout(): void {
+    localStorage.removeItem('custNum');
     this.router.navigateByUrl('', { replaceUrl: true });
   }
 }

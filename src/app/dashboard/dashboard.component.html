@@ -3,8 +3,8 @@
     <mat-tab label="New Transactions">
         <app-newtransactions [user]="userDetails" [transactionObj]="transactionObj" (notifyParent)="updateData()"></app-newtransactions>
     </mat-tab>
-    <mat-tab label="View transactions" *ngIf="transactionObj">
-        <app-viewtransactions [user]="userDetails" [transactionObj]="transactionObj"></app-viewtransactions>
+    <mat-tab label="View transactions">
+        <app-viewtransactions *ngIf="transactionObj" [user]="userDetails" [transactionObj]="transactionObj"></app-viewtransactions>
     </mat-tab>
 </mat-tab-group>
 <ng-template #else_spinner>

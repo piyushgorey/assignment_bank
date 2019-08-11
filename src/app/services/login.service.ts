@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { User, LoginUser } from '../model/model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
+import { Constants } from '../constants/constant';
 @Injectable()
 export class LoginService {
     constructor(private http: HttpClient) { }
@@ -15,18 +16,15 @@ export class LoginService {
                 'secret-key': '$2a$10$paefM8JBnEZqMwOI.O/AzOiFAMyrf8C.CkCVVBtZR9d9qMuO13dly'
             }
         }
-        return this.http.get('https://api.jsonbin.io/b/5d49797c89ed890b24ccb718/1', options);
+        return this.http.get(Constants.loginUserUrl, options);
     }
     /**
      * 
      * @param user Simply validates if the user credentials are matching.
      * @param responseUser 
      */
-    checkIfUSerIsValid(user: User, responseUser: LoginUser): boolean {
-        if (user.userName === responseUser.username && user.userPassword === responseUser.password) {
-            return true;
-        } else {
-            return false;
-        }
+    checkIfUSerIsValid(user: User, responseUser: LoginUser[]): LoginUser {
+        let loggedInUser = responseUser.find(resUser =>user.userName === resUser.username && user.userPassword === resUser.password);
+        return loggedInUser;
     }
 }
