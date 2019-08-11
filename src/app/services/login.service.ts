@@ -6,6 +6,9 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class LoginService {
     constructor(private http: HttpClient) { }
+    /**
+     * calls jsonbin.io user bin and retreives a valid user credentials.
+     */
     authenticate(): Observable<any> {
         const options = {
             headers: {
@@ -14,8 +17,13 @@ export class LoginService {
         }
         return this.http.get('https://api.jsonbin.io/b/5d49797c89ed890b24ccb718/1', options);
     }
+    /**
+     * 
+     * @param user Simply validates if the user credentials are matching.
+     * @param responseUser 
+     */
     checkIfUSerIsValid(user: User, responseUser: LoginUser): boolean {
-        if (user.username === responseUser.username && user.password === responseUser.password) {
+        if (user.userName === responseUser.username && user.userPassword === responseUser.password) {
             return true;
         } else {
             return false;

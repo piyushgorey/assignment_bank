@@ -27,4 +27,9 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
+  it('should have a title', ()=>{
+    const fixture = TestBed.createComponent(AppComponent);
+    const title = fixture.debugElement.componentInstance.title;
+    expect(title).toBe('taskbank');
+  });
 });

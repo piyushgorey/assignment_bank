@@ -15,6 +15,7 @@ import { NgModule } from '@angular/core';
       MatProgressSpinnerModule,
       MatListModule,
       MatSnackBarModule,
+      MatTooltipModule,
     } from '@angular/material';
 
     @NgModule({
@@ -31,6 +32,7 @@ import { NgModule } from '@angular/core';
         MatSnackBarModule,
         MatProgressSpinnerModule,
         MatTabsModule,
+        MatTooltipModule,
         MatFormFieldModule,
         MatGridListModule,
         MatInputModule
@@ -47,6 +49,7 @@ import { NgModule } from '@angular/core';
         MatCardModule,
         MatTabsModule,
         MatSnackBarModule,
+        MatTooltipModule,
         MatGridListModule,
         MatFormFieldModule,
         MatInputModule

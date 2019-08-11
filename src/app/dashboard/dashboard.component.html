@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar [user]="userDetails"></app-navbar>
 <mat-tab-group mat-align-tabs="center" *ngIf="userDetails; else else_spinner" (selectedTabChange)="onLinkClick($event)">
     <mat-tab label="New Transactions">
         <app-newtransactions [user]="userDetails" [transactionObj]="transactionObj" (notifyParent)="updateData()"></app-newtransactions>
@@ -9,7 +9,7 @@
 </mat-tab-group>
 <ng-template #else_spinner>
         <div class="spinner-container">
-    <p class="text-center">Logging in ...!!</p>
+    <p class="text-center">Please wait ...!!</p>
     <mat-spinner class="spinner-inner" [diameter]="30"> </mat-spinner>
 </div>
 </ng-template>
