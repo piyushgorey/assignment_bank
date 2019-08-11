@@ -1,4 +1,5 @@
-{
+[
+   {
    "responseXML": {
       "getCustomerInfoResponse": {
          "getCustomerInfoResult": {
@@ -6,13 +7,14 @@
             "ERROR_MSG": [],
             "WARNING_MSG_LIST": [],
             "CUST_INFO": {
+               "TRANSACTION_DATA":"https://api.jsonbin.io/b/5d5058f62732233067f76f8c",
                "CUST_NO": "23423",
-               "SHORT_NAME": "SHORT.NAME1673948",
+               "SHORT_NAME": "Test user",
                "IS_INDIVIDUAL": "Y",
                "NATIONALITY": "MU",
                "NATIONALITY_NUM": "480",
                "NATIONALITY_DESC": "MAURITIUS",
-               "STREET_ADDR": "STREET-ADDR",
+               "STREET_ADDR": "STREET-ADDR FOR TEST USER",
                "ADDRESS_LINE2": [],
                "ADDRESS_LINE3": [],
                "TOWN_COUNTRY": "CUREPIPE",
@@ -26,7 +28,7 @@
                      "COMM_CHANNEL": "BY EMAIL",
                      "PHONE_LIST_V7": {
                         "PHONE_LIST_ITEM_V7": {
-                           "PHONE": "22222222"
+                           "PHONE": "54546654"
                         }
                      },
                      "OFFICE_PHONE_LIST_V7": {
@@ -62,4 +64,135 @@
          }
       }
    }
-}
+   },
+   {
+      "responseXML": {
+         "getCustomerInfoResponse": {
+            "getCustomerInfoResult": {
+               "RETURN_CODE": "0",
+               "ERROR_MSG": [],
+               "WARNING_MSG_LIST": [],
+               "CUST_INFO": {
+                  "CUST_NO": "23424",
+                  "SHORT_NAME": "Test User 2",
+                  "IS_INDIVIDUAL": "Y",
+                  "NATIONALITY": "MU",
+                  "NATIONALITY_NUM": "480",
+                  "NATIONALITY_DESC": "MAURITIUS",
+                  "STREET_ADDR": "STREET-ADDR FOR TEST USER 2",
+                  "ADDRESS_LINE2": [],
+                  "ADDRESS_LINE3": [],
+                  "TOWN_COUNTRY": "CUREPIPE",
+                  "POST_CODE": [],
+                  "COUNTRY": "COUNTRY",
+                  "COUNTRY_CODE": "MU",
+                  "COUNTRY_CODE_NUM": "480",
+                  "DESPATCH_CODE": "MA",
+                  "CONTACT_INFO_V7": {
+                     "CONTACT_INFO_V7": {
+                        "COMM_CHANNEL": "BY EMAIL",
+                        "PHONE_LIST_V7": {
+                           "PHONE_LIST_ITEM_V7": {
+                              "PHONE": "9879821"
+                           }
+                        },
+                        "OFFICE_PHONE_LIST_V7": {
+                           "OFFICE_PHONE_LIST_ITEM_V7": {
+                              "OFFICE_PHONE": []
+                           }
+                        },
+                        "FAX_LIST_V7": {
+                           "FAX_LIST_ITEM_V7": {
+                              "FAX": []
+                           }
+                        },
+                        "SMS_LIST_V7": {
+                           "SMS_LIST_V7": {
+                              "MOB_OPER_ISO": "48",
+                              "MOB_OPER_CODE": "ORANGEMU",
+                              "SMS_FORMATTED": "+230123456789",
+                              "SMS_LIST_ITEM_V7": {
+                                 "SMS_LIST_ITEM_V7": {
+                                    "SMS": "+230123456789"
+                                 }
+                              }
+                           }
+                        },
+                        "EMAIL_LIST_V7": {
+                           "EMAIL_LIST_ITEM_V7": {
+                              "EMAIL": "THIS_IS_A_TEST@GMAIL.COM"
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   {
+      "responseXML": {
+         "getCustomerInfoResponse": {
+            "getCustomerInfoResult": {
+               "RETURN_CODE": "0",
+               "ERROR_MSG": [],
+               "WARNING_MSG_LIST": [],
+               "CUST_INFO": {
+                  "CUST_NO": "23425",
+                  "SHORT_NAME": "Test User 3",
+                  "IS_INDIVIDUAL": "Y",
+                  "NATIONALITY": "MU",
+                  "NATIONALITY_NUM": "480",
+                  "NATIONALITY_DESC": "MAURITIUS",
+                  "STREET_ADDR": "STREET-ADDR FOR TEST USER 3",
+                  "ADDRESS_LINE2": [],
+                  "ADDRESS_LINE3": [],
+                  "TOWN_COUNTRY": "CUREPIPE",
+                  "POST_CODE": [],
+                  "COUNTRY": "COUNTRY",
+                  "COUNTRY_CODE": "MU",
+                  "COUNTRY_CODE_NUM": "480",
+                  "DESPATCH_CODE": "MA",
+                  "CONTACT_INFO_V7": {
+                     "CONTACT_INFO_V7": {
+                        "COMM_CHANNEL": "BY EMAIL",
+                        "PHONE_LIST_V7": {
+                           "PHONE_LIST_ITEM_V7": {
+                              "PHONE": "5466598"
+                           }
+                        },
+                        "OFFICE_PHONE_LIST_V7": {
+                           "OFFICE_PHONE_LIST_ITEM_V7": {
+                              "OFFICE_PHONE": []
+                           }
+                        },
+                        "FAX_LIST_V7": {
+                           "FAX_LIST_ITEM_V7": {
+                              "FAX": []
+                           }
+                        },
+                        "SMS_LIST_V7": {
+                           "SMS_LIST_V7": {
+                              "MOB_OPER_ISO": "48",
+                              "MOB_OPER_CODE": "ORANGEMU",
+                              "SMS_FORMATTED": "+230123456789",
+                              "SMS_LIST_ITEM_V7": {
+                                 "SMS_LIST_ITEM_V7": {
+                                    "SMS": "+230123456789"
+                                 }
+                              }
+                           }
+                        },
+                        "EMAIL_LIST_V7": {
+                           "EMAIL_LIST_ITEM_V7": {
+                              "EMAIL": "THIS_IS_A_TEST@GMAIL.COM"
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+]

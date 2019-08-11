@@ -6,14 +6,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 This project is made using Angular Material library. 
 1. Login page allows "testuser" (username) to login using password (1234).
-2. After successful login user lands on to dashboard page, where there are two tabs. "New Transaction" and "View Transaction" page.
-3. New Transaction page lets the user create a new transaction. 
-4. View transaction page lets the user view the past transactions list.
+2. There are three Valid user with these credential : 
+    a. (username: testuser, password: 1234)
+    b. (username: testusertwo, password: 1234)
+    c. (username: testuserthree, password: 1234)
+3. After successful login user lands on to dashboard page, where there are two tabs. "New Transaction" and "View Transaction" page.
+4. New Transaction page lets user to create a new transaction that reflects in the user's view transaction page once the transaction is successfully made.
+5. View transaction page shows the history of all the transaction made. This page shows the all the transactions of the logged In customer.
+6. A tooltip suggests to use the customer number of logged in user to automatically populate some of the form fields.
 
 Note:- Login user session time is not implemented in this project neither any encryption or decryption is used to validate the logged in user.
 
 
 #Rest API calls
+1. Once the user inputs a valid credentials , it is validated with the service response array and the user object is passed on to dashboard using behavior subject observable.
+2. This validation is done on the basis of unique customer ID of each user. Once a valid user is logged in. the respective transaction data is fetched. the Transaction url present in the response of the valid user and the url is passed to get the transaction details of specific user.
+
+
 For all the REST APIs methods , this project uses jsonbin.io. JSONbin.io is a free JSON storage and JSON hosting service. The customer.json file is retrieved using a secret key and three other bins are created and consumed using get and put calls.
 
 
