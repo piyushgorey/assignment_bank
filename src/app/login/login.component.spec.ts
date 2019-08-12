@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LoginUser } from '../model/model';
 import { Constants } from '../constants/constant';
+import { DashboardService } from '../services/dashboard.service';
 class RouterStub {
   navigateByUrl(url: string) {
     return url;
@@ -32,6 +33,7 @@ describe('LoginComponent', () => {
       ],
       providers: [
       LoginService, 
+      DashboardService,
       {provide: Router, useClass: RouterStub}
     ]
 
@@ -59,7 +61,8 @@ describe('LoginComponent', () => {
     const mockUser: LoginUser = {
       username: 'testuser',
       name: 'Test User',
-      password: '1234'
+      password: '1234',
+      custNum: '23423'
     }
     service.authenticate().subscribe((userResponse: LoginUser)=>{
       expect(userResponse).toEqual(mockUser);
