@@ -21,9 +21,16 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     console.log('dashboard call');
+    this.getCustomerList();
+  }
+  onLinkClick(event: MatTabChangeEvent): void {
+    this.getCustomerList();
+  }
+  getCustomerList(){
     this.dashboardService.getCusomerDetails().subscribe((response: UserDetails[]) => {
       console.log(response);
       this.userDetailsArray = response;
+      this.getTransactionList(this.userDetailsArray);
         this.dashboardService.defaultId.subscribe(res => {
             console.log(res);
             if(res=='') {
@@ -40,9 +47,6 @@ export class DashboardComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
-  }
-  onLinkClick(event: MatTabChangeEvent): void {
-    this.getTransactionList(this.userDetailsArray);
   }
 /**
  * calls dashboard service to retrive the user transaction list.

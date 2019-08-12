@@ -20,6 +20,7 @@ export class NewtransactionsComponent implements OnInit {
   userTransaction: UserTransactions;
   transferCurrency: string;
   userSelected:UserDetails
+  customerNum: string;
   userTransactionForm = new FormGroup({
     transferAmount: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
@@ -44,8 +45,8 @@ export class NewtransactionsComponent implements OnInit {
    * @param event 
    */
   getCustomerNumber(event) {
-    let customerNum = event.target.value;
-    this.userSelected = this.dashboardService.getSelectedUser(this.userArray,customerNum)
+    this.customerNum = event.target.value;
+    this.userSelected = this.dashboardService.getSelectedUser(this.userArray,this.customerNum)
     if(this.userSelected) {
       this.userDetailsReceived = {
         customerName: this.userSelected.customerName,
@@ -65,12 +66,17 @@ export class NewtransactionsComponent implements OnInit {
     this.userTransaction = this.mapTransactionForm(this.userTransactionForm.value);
     if(this.userTransactionForm.status === 'VALID'){
       this.dashboardService.getTransactionList(this.userDetailsReceived.transactionData).subscribe((transactionList) => {
-        let transaction = transactionList.find(transaction=> transaction.custNum == this.userSelected.customerNumber);
-        transaction.transactionList.push(this.userTransaction.transactionList);
+        if(this.userSelected) {
+          let transaction = transactionList.find(transaction=> transaction.custNum == this.userSelected.customerNumber);
+          transaction.transactionList.push(this.userTransaction.transactionList);
+        } else {
+          transactionList.push(this.userTransaction);
+        }
         this.dashboardService.pushNewTransactions(transactionList).subscribe((updatedTransactions: TransactionList) => {
           console.log(updatedTransactions);
           this.userTransactionForm.reset();
           this.referenceNum = this.dashboardService.getReferenceNumber();
+          this.notifyParent.emit();
           this.openSnackBar(Constants.successMessage,'Ok');
           setTimeout(()=>{
             window.location.reload();
@@ -90,16 +96,24 @@ export class NewtransactionsComponent implements OnInit {
    */
   mapTransactionForm(transactionForm) {
     let formData: UserTransactions = new UserTransactions();
-    formData.custName = this.userSelected.customerName;
-    formData.custNum = this.userSelected.customerName;
-    formData.transactionList = new TransactionFeilds();
-    formData.transactionList.beneficiaryAccNum = transactionForm.beneficiaryAccNum;
-    formData.transactionList.beneficiaryBank = transactionForm.beneficiaryBank;
-    formData .transactionList.paymentDetails = transactionForm.paymentDetails;
-    formData.transactionList.referenceNum = this.referenceNum;
-    formData.transactionList.transferAmount = transactionForm.transferAmount;
-    formData.transactionList.transferCurrency = this.transferCurrency;
-    formData.transactionList.beneficiaryName = transactionForm.beneficiaryName;
+    let transcation = new TransactionFeilds();
+    if(this.userSelected) {
+      formData.custName = this.userSelected.customerName;
+      formData.custNum = this.userSelected.customerName;
+    } else {
+      formData.custName = this.userDetailsReceived.customerName;
+      formData.custNum = this.customerNum
+    }
+    transcation.beneficiaryAccNum = transactionForm.beneficiaryAccNum;
+    transcation.beneficiaryBank = transactionForm.beneficiaryBank;
+    transcation.paymentDetails = transactionForm.paymentDetails;
+    transcation.referenceNum = this.referenceNum;
+    transcation.transferAmount = transactionForm.transferAmount;
+    transcation.transferCurrency = this.transferCurrency;
+    transcation.beneficiaryName = transactionForm.beneficiaryName;
+    formData.transactionList = [];
+    // formData.transactionList = new TransactionFeilds()[0];
+    formData.transactionList.push(transcation);
     return formData;
   }
 

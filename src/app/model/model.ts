@@ -13,7 +13,7 @@ export class UserDetails {
 export class UserTransactions {
     custNum:string;
     custName:string;
-    transactionList: TransactionFeilds;
+    transactionList: TransactionFeilds[];
 }
 export class TransactionFeilds {
     referenceNum: string;
