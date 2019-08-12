@@ -17,7 +17,7 @@ export class DashboardService {
      * http call gets the user using https://jsonbin.io/ bin
      * this bin returns an Observable of valid user json which is also present in the asses folder "customer.json"
      */
-    getCusomerDetails(): Observable<UserDetails> {
+    getCusomerDetails(): Observable<UserDetails[]> {
         const options = {
             headers: {
                 'secret-key': '$2a$10$paefM8JBnEZqMwOI.O/AzOiFAMyrf8C.CkCVVBtZR9d9qMuO13dly'
@@ -32,7 +32,7 @@ export class DashboardService {
      * Returns an Observable of UserTransaction. 
      * @param userTransaction 
      */
-    pushNewTransactions(userTransaction: UserTransactions[], url): Observable<any> {
+    pushNewTransactions(userTransaction: UserTransactions[]): Observable<any> {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export class DashboardService {
                 'versioning': 'false'
             }
         }
-        return this.http.put(url, userTransaction, options);
+        return this.http.put(Constants.transactionListUrl, userTransaction, options);
     }
 
     /**
@@ -48,33 +48,19 @@ export class DashboardService {
      * Filters out redundant feilds and creates a more specific  user details response.
      * @param userResponse 
      */
-    mapUserResponse(userResponse: ServerResponse[]): UserDetails {
-        let custNum: string;
-        this.defaultId.subscribe(res => {
-            console.log(res);
-            if(res=='') {
-                if(JSON.parse(localStorage.getItem('custNum')).custNum) {
-                    custNum = JSON.parse(localStorage.getItem('custNum')).custNum;
-                } else {
-                    this.router.navigateByUrl('', { replaceUrl: true });
-                }
-            }  else {
-                custNum = res;
-            }  
-        });
-        let userInfo: ServerUserInfo;
-        let userDetails = new UserDetails();
+    mapUserResponse(userResponse: ServerResponse[]): UserDetails[] {
+        let userArray: UserDetails[] =[];
         for (let userIndex = 0; userIndex < userResponse.length; userIndex++) {
-            userInfo = userResponse[userIndex].responseXML.getCustomerInfoResponse.getCustomerInfoResult.CUST_INFO;
-            if (userInfo.CUST_NO == custNum) {
+            let userDetails = new UserDetails();
+            let userInfo = userResponse[userIndex].responseXML.getCustomerInfoResponse.getCustomerInfoResult.CUST_INFO;
                 userDetails.customerNumber = userInfo.CUST_NO;
                 userDetails.customerAddress = userInfo.STREET_ADDR;
                 userDetails.customerName = userInfo.SHORT_NAME;
                 userDetails.phoneNumber = userInfo.CONTACT_INFO_V7.CONTACT_INFO_V7.PHONE_LIST_V7.PHONE_LIST_ITEM_V7.PHONE;
                 userDetails.transactionData = userInfo.TRANSACTION_DATA;
-            }
+            userArray.push(userDetails);
         }
-        return userDetails;
+        return userArray;
     }
     /**
      * Creates a reference number for a new transaction as per the guidelines
@@ -100,7 +86,10 @@ export class DashboardService {
                 'versioning': 'false'
             }
         }
-        return this.http.get(url, options);
+        return this.http.get(Constants.transactionListUrl, options);
+    }
+    getSelectedUser(userArray, customerNumber): UserDetails {
+        return userArray.find(user=> user.customerNumber == customerNumber);
     }
     newId(urlId) {
         this.noId.next(urlId);

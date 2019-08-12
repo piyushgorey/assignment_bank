@@ -14,7 +14,12 @@ This project is made using Angular Material library.
 4. New Transaction page lets user to create a new transaction that reflects in the user's view transaction page once the transaction is successfully made.
 5. View transaction page shows the history of all the transaction made. This page shows the all the transactions of the logged In customer.
 6. A tooltip suggests to use the customer number of logged in user to automatically populate some of the form fields.
+7. Please use following customer number to auto populate the data
 
+    for, testuser customer number = 23423,
+    for, testusertwo customer number = 23424,
+    for, testuserthree customer number = 23425
+    
 Note:- Login user session time is not implemented in this project neither any encryption or decryption is used to validate the logged in user.
 
 

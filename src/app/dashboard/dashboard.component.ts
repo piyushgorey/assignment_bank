@@ -11,33 +11,47 @@ import { ViewtransactionsComponent } from './viewtransactions/viewtransactions.c
 })
 
 export class DashboardComponent implements OnInit {
-  private userDetails: UserDetails;
+  private userDetailsArray: UserDetails[];
   private transactionList: UserTransactions[];
   private transactionObj;
+  private userSelected: UserDetails;
   constructor(private dashboardService: DashboardService, private router: Router) {
     console.log('dashboard call');
   }
 
   ngOnInit() {
     console.log('dashboard call');
-    this.dashboardService.getCusomerDetails().subscribe((response: UserDetails) => {
-      this.userDetails = response;
-      this.getTransactionList(this.userDetails);
+    this.dashboardService.getCusomerDetails().subscribe((response: UserDetails[]) => {
+      console.log(response);
+      this.userDetailsArray = response;
+        this.dashboardService.defaultId.subscribe(res => {
+            console.log(res);
+            if(res=='') {
+                if(JSON.parse(localStorage.getItem('custNum')).custNum) {
+                  this.userSelected = this.dashboardService.getSelectedUser(this.userDetailsArray,JSON.parse(localStorage.getItem('custNum')).custNum);
+                } else {
+                    this.router.navigateByUrl('', { replaceUrl: true });
+                }
+            }  else {
+              this.userSelected = this.dashboardService.getSelectedUser(this.userDetailsArray,res);;
+            }  
+        });
+     
     }, (error) => {
       console.log(error);
     });
   }
   onLinkClick(event: MatTabChangeEvent): void {
-    this.getTransactionList(this.userDetails);
+    this.getTransactionList(this.userDetailsArray);
   }
 /**
  * calls dashboard service to retrive the user transaction list.
  */
-  getTransactionList(userDetails: UserDetails): void {
-    this.dashboardService.getTransactionList(userDetails.transactionData).subscribe((transactionList: TransactionList) => {
-      this.transactionList = transactionList.newTransactions;
-      console.log(transactionList);
-      this.transactionObj = { list: transactionList }
+  getTransactionList(userDetailsArray: UserDetails[]): void {
+    // let loggedInUser = userDetailsArray.find(resUser =>resUser.customerName === resUser.username && user.userPassword === resUser.password);
+    this.dashboardService.getTransactionList('userDetails.transactionData').subscribe((transactionList: UserTransactions[]) => {
+      this.transactionList = transactionList;
+      console.log(this.transactionList);
     });
   }
   /**
@@ -45,6 +59,6 @@ export class DashboardComponent implements OnInit {
    * fires when EventEmitter "notifyParent" is emitted from "New Transaction" page.
    */
   updateData(): void {
-    this.getTransactionList(this.userDetails);
+    this.getTransactionList(this.userDetailsArray);
   }
 }

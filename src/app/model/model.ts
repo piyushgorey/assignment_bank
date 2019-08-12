@@ -11,6 +11,11 @@ export class UserDetails {
     transactionData:string;
 }
 export class UserTransactions {
+    custNum:string;
+    custName:string;
+    transactionList: TransactionFeilds;
+}
+export class TransactionFeilds {
     referenceNum: string;
     transferAmount: string;
     transferCurrency: string;

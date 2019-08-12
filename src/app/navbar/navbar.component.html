@@ -1,5 +1,5 @@
 <mat-toolbar class="nav-bar">
-    <span *ngIf="user" class="title-page">Welcome {{user.customerName}}</span>
+    <span *ngIf="userSelected" class="title-page">Welcome {{userSelected.customerName}}</span>
     <span class="logout-btn">
         <i class="material-icons" (click)="logout()">
             exit_to_app
