@@ -1,12 +1,13 @@
 <div class="d-block m-5">
     <mat-card-title>
-
+        Customer Name:
     </mat-card-title><br>
-    <mat-card-content>
-        <div class="mt-5" *ngIf="user">
-            <mat-label>Customer Name: </mat-label>
-            <mat-label>{{ user.customerName }}</mat-label>
-            <div *ngFor="let transactions of transactionList" class="row-container">
+    <mat-card-content *ngIf="transactionList; else else_spinner">
+        <div *ngFor="let customer of transactionList" class="mt-5" >
+            <mat-label>Customer Name:</mat-label>
+            <mat-label> {{customer.custName}}</mat-label>
+            <div>
+                <div *ngFor="let transactions of customer.transactionList" class="row-container" >
                     <div>
                             <mat-label>Beneficiary Name: </mat-label>
                             <mat-label>{{ transactions.beneficiaryName }}</mat-label>
@@ -24,9 +25,17 @@
                         <mat-label> {{ transactions.referenceNum }} </mat-label>
                     </div>
                 </div>
+            </div>
+           
         </div>
-        
+       
             
 
     </mat-card-content>
+    <ng-template #else_spinner>
+        <div class="spinner-container">
+    <p class="text-center">Please wait ...!!</p>
+    <mat-spinner class="spinner-inner" [diameter]="30"> </mat-spinner>
+</div>
+</ng-template>
 </div>

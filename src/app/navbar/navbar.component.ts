@@ -8,11 +8,11 @@ import { UserDetails } from '../model/model';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @Input() user: UserDetails;
+  @Input() userSelected: UserDetails;
   constructor(private router: Router) { }
 
   ngOnInit() {
-
+    
   }
   /**
    * navigates the user to login page.

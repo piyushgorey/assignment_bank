@@ -9,15 +9,14 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 })
 export class ViewtransactionsComponent implements OnInit {
   @Input() user: UserDetails;
-  @Input() transactionObj;
-  transactionList;
+  @Input() transactionList;
   constructor(private dashboardService: DashboardService, private cdref: ChangeDetectorRef) {
 
    }
    ngAfterViewInit() {
-    if(this.transactionObj) {
-      this.transactionList = this.transactionObj.list
-    }
+    // if(this.transactionObj) {
+    //   this.transactionList = this.transactionObj.list
+    // }
     this.cdref.detectChanges();
   }
   ngOnInit() {
