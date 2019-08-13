@@ -1,9 +1,9 @@
 <app-navbar [userSelected]="userSelected"></app-navbar>
 <mat-tab-group mat-align-tabs="center" *ngIf="userDetailsArray; else else_spinner" (selectedTabChange)="onLinkClick($event)">
-    <mat-tab label="New Transactions">
+    <mat-tab label="New Transactions" class="new-transactions">
         <app-newtransactions [userArray]="userDetailsArray" [transactionList]="transactionList" (notifyParent)="updateData()"></app-newtransactions>
     </mat-tab>
-    <mat-tab label="View transactions">
+    <mat-tab label="View transactions" class="transactions-list">
         <app-viewtransactions *ngIf="transactionList" [user]="userDetailsArray" [transactionList]="transactionList"></app-viewtransactions>
     </mat-tab>
 </mat-tab-group>

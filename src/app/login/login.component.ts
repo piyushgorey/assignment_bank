@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('custNum', JSON.stringify(verifyUserSession));
         this.router.navigateByUrl('dashboard');
       } else {
-        this.openSnackBar(Constants.loginErrorMsg,'Ok');
+        this.openSnackBar(Constants.loginErrorMsg,'');
       }
     });
   }
