@@ -11,13 +11,13 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
-                    <input matInput placeholder="Customer Number" (keyup)="getCustomerNumber($event)">
+                    <input name="customerNumber" matInput placeholder="Customer Number" (keyup)="getCustomerNumber($event)">
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
                     <mat-label>Transfer currency</mat-label>
-                    <mat-select  [(ngModel)]="transferCurrency">
+                    <mat-select name="transferCurrency"  [(ngModel)]="transferCurrency">
                         <mat-option *ngFor="let currency of transferCurrencies" [value]="currency">
                             {{currency}}
                         </mat-option>
@@ -26,12 +26,12 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
-                    <input matInput placeholder="Customer Name" [(ngModel)]="userDetailsReceived.customerName">
+                    <input  name="customerName" matInput placeholder="Customer Name" [(ngModel)]="userDetailsReceived.customerName">
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field>
-                    <input matInput placeholder="Customer address" [(ngModel)]="userDetailsReceived.customerAddress">
+                    <input name="customerAddress" matInput placeholder="Customer address" [(ngModel)]="userDetailsReceived.customerAddress">
                 </mat-form-field>
             </mat-grid-tile>
      
@@ -40,36 +40,36 @@
             <form [formGroup]="userTransactionForm" (ngSubmit)="onSubmit()">
                     <mat-grid-tile>
                             <mat-form-field>
-                                <input matInput placeholder="Customer Phone Number" formControlName="phoneNumber" [(value)]="userTransactionForm.value.phoneNumber">
+                                <input name="phoneNumber" matInput placeholder="Customer Phone Number" formControlName="phoneNumber" [(value)]="userTransactionForm.value.phoneNumber">
                             </mat-form-field>
                         </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field class="mt-5">
-                        <input matInput placeholder="Transfer amount" formControlName="transferAmount">
+                        <input name="transferAmount" matInput placeholder="Transfer amount" formControlName="transferAmount">
                     </mat-form-field>
                 </mat-grid-tile>
 
 
                 <mat-grid-tile>
                     <mat-form-field>
-                        <input matInput placeholder="Beneficiary bank" formControlName="beneficiaryBank">
+                        <input  name="beneficiaryBank" matInput placeholder="Beneficiary bank" formControlName="beneficiaryBank">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile>
                     <mat-form-field>
-                        <input matInput placeholder="Beneficiary account number" formControlName="beneficiaryAccNum">
+                        <input name="beneficiaryAccNum" matInput placeholder="Beneficiary account number" formControlName="beneficiaryAccNum">
                     </mat-form-field>
                 </mat-grid-tile>
                
                 <mat-grid-tile>
                     <mat-form-field>
-                        <input matInput placeholder="Payment details" formControlName="paymentDetails">
+                        <input name="paymentDetails" matInput placeholder="Payment details" formControlName="paymentDetails">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field>
-                        <input matInput placeholder="Beneficiary Name" formControlName="beneficiaryName">
+                        <input name="beneficiaryName" matInput placeholder="Beneficiary Name" formControlName="beneficiaryName">
                     </mat-form-field>
                 </mat-grid-tile>
             </form>
